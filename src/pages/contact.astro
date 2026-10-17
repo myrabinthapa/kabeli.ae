@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import LegalHeader from '../components/LegalHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+const title = 'Contact Kabeli | Start a Software Project in the UAE';
+const description = 'Discuss custom software, web and mobile apps, AI integration, and technology consulting with Kabeli Software Solution FZ-LLC in Ras Al Khaimah, UAE.';
+---
+<Base title={title} description={description} path="/contact">
+  <div class="page">
+    <a class="skip" href="#main">Skip to content</a>
+    <LegalHeader />
+    <main id="main" class="contact-page wrap">
+      <div class="contact-head">
+        <div><p class="lbl">LET'S COLLABORATE / 05</p><h1 class="contact-title">Tell us what you're <em>building.</em></h1></div>
+        <div><p class="contact-lead">Have a software project in mind? Share a few details, and let's explore the right way to build it.</p><a class="contact-direct" href="mailto:hello@kabeli.ae">hello@kabeli.ae ↗</a><p class="mono contact-location">RAS AL KHAIMAH, UNITED ARAB EMIRATES<br/>WORKING WITH CLIENTS WORLDWIDE</p></div>
+      </div>
+      <div class="contact-panel">
+        <div class="contact-aside"><span class="lbl">START A CONVERSATION</span><h2>Good projects start with a clear brief.</h2><p>Tell us about the problem, goals, or product idea. This form opens your email app with a prepared message—nothing is uploaded to our website.</p><span class="contact-index">KABELI / ENQUIRIES</span></div>
+        <form id="enquiry-form" class="contact-form">
+          <div class="form-grid"><label>Your name <input name="name" type="text" required minlength="2" maxlength="100" autocomplete="name" placeholder="Your full name" /></label><label>Work email <input name="email" type="email" required maxlength="200" autocomplete="email" placeholder="you@company.com" /></label></div>
+          <div class="form-grid"><label>Company (optional) <input name="company" maxlength="120" autocomplete="organization" placeholder="Company or organisation" /></label><label>What do you need? <select name="service" required><option value="" disabled selected>Select a service</option><option>Custom software</option><option>Web or digital platform</option><option>Mobile application</option><option>AI & automation</option><option>Cloud & infrastructure</option><option>Technology consulting</option><option>Other / Not sure yet</option></select></label></div>
+          <label>Tell us about your project <textarea name="message" required minlength="15" maxlength="3000" rows="6" placeholder="What are you building? What would success look like?"></textarea></label>
+          <div class="form-submit"><p>By contacting us, you agree to our <a href="/privacy">Privacy Policy</a>. Please avoid including confidential data in your initial message.</p><button class="kb-primary" type="submit">Prepare email enquiry <span aria-hidden="true">↗</span></button></div>
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note">If your email application does not open, email us directly at <a href="mailto:hello@kabeli.ae">hello@kabeli.ae</a>.</p>
+        </form>
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+  <script>
+    const form = document.querySelector<HTMLFormElement>('#enquiry-form');
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const value = (field: string) => String(data.get(field) || '').trim();
+      const subject = `Kabeli project enquiry — ${value('service')}`;
+      const body = [`Name: ${value('name')}`, `Email: ${value('email')}`, `Company: ${value('company') || 'Not provided'}`, `Service: ${value('service')}`, '', 'Project details:', value('message')].join('\n');
+      const status = document.querySelector<HTMLElement>('#form-status');
+      if (status) status.textContent = 'Your email app should open with the enquiry prepared. Please press Send there to deliver it.';
+      window.location.href = `mailto:hello@kabeli.ae?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  </script>
+</Base>
